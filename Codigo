@@ -1,0 +1,302 @@
+ #Datos de la aplicación 
+# Aquí voy a guardar la información que la aplicación necesita.
+# Piensen en esto como si fuera un pequeño cuaderno de la aplicación.
+
+# Diccionario para guardar la información del USUARIO que está usando la app ahora mismo.
+# Es como un formulario que el usuario va llenando.
+usuario = {
+    "nombre": "",          # Para guardar el nombre del usuario
+    "edad": 0,             # Para guardar la edad del usuario
+    "genero": "",          # Para guardar el género del usuario
+    "habilidades": [],     # Una lista para guardar las habilidades que el usuario nos diga
+    "puesto_deseado": "",  # Para guardar el puesto que el usuario quiere conseguir
+    "horario_preferido": "" # Para guardar el horario que el usuario prefiere
+}
+
+# Esta es una lista de diccionarios. Cada diccionario es un trabajo diferente.
+# En un programa real, esta información vendría de una base de datos de trabajos.
+# Para nosotros, es como una lista de tarjetas, cada una con un trabajo.
+trabajos_disponibles = [
+    {
+        "puesto": "Asistente Administrativo",
+        "horario": "tiempo completo",
+        "habilidades_requeridas": ["organizacion", "excel", "comunicacion", "redaccion"], # Habilidades que se necesitan para este trabajo
+        "descripcion": "Ayudar en la oficina con papeles "
+        "y atender llamadas."
+    },
+    {
+        "puesto": "Desarrollador Web Junior",
+        "horario": "tiempo completo",
+        "habilidades_requeridas": ["python", "html", "javascript", "logica"], # Habilidades de programación
+        "descripcion": "Crear y mantener páginas de internet."
+    },
+    {
+        "puesto": "Vendedor de Tienda",
+        "horario": "medio tiempo",
+        "habilidades_requeridas": ["atencion al cliente", "ventas", "amabilidad"], # Habilidades para tratar con personas
+        "descripcion": "Ayudar a los clientes en la tienda a encontrar lo que buscan y vender."
+    },
+    {
+        "puesto": "Operador de Producción",
+        "horario": "turnos rotativos", # Horario que cambia (mañana, tarde, noche)
+        "habilidades_requeridas": ["responsabilidad", "trabajo en equipo", "maquinaria"], # Habilidades para fábrica
+        "descripcion": "Manejar máquinas y asegurar que los productos se hagan bien."
+    },
+    {
+        "puesto": "Auxiliar Contable",
+        "horario": "tiempo completo",
+        "habilidades_requeridas": ["contabilidad", "excel", "finanzas", "organizacion"],
+        "descripcion": "Ayudar con los números de la empresa y hacer registros financieros."
+    }
+]
+
+# Otra lista de diccionarios, esta vez para los cursos.
+# Cada diccionario tiene la información de un curso y qué habilidades te ayuda a desarrollar.
+cursos_disponibles = [
+    {
+        "nombre_curso": "Curso Básico de Microsoft Excel",
+        "habilidades_desarrolla": ["excel", "organizacion"], # Habilidades que aprendes en este curso
+        "proveedor": "Cámara de Comercio de Guadalajara",
+        "info_contacto": "Buscar en www.camaradecomerciogdl.mx para detalles."
+    },
+    {
+        "nombre_curso": "Introducción a Python para Principiantes",
+        "habilidades_desarrolla": ["python", "logica"],
+        "proveedor": "Zapopan Academy",
+        "info_contacto": "Buscar en el portal del Gobierno de Zapopan (Zapopan Academy)."
+    },
+    {
+        "nombre_curso": "Taller de Atención al Cliente y Ventas",
+        "habilidades_desarrolla": ["atencion al cliente", "ventas", "comunicacion", "amabilidad"],
+        "proveedor": "DHYNE Capacitación",
+        "info_contacto": "Buscar en Google 'DHYNE Capacitación Guadalajara'."
+    },
+    {
+        "nombre_curso": "Curso de Contabilidad Básica",
+        "habilidades_desarrolla": ["contabilidad", "finanzas"],
+        "proveedor": "Colegio de Contadores Públicos de Guadalajara",
+        "info_contacto": "Buscar en www.ccpg.org.mx."
+    },
+    {
+        "nombre_curso": "Comunicación Efectiva para el Trabajo",
+        "habilidades_desarrolla": ["comunicacion", "redaccion"],
+        "proveedor": "Cursos Guadalajara",
+        "info_contacto": "Buscar 'Cursos Guadalajara' en Google."
+    }
+]
+
+# --- 2. EL MENÚ PRINCIPAL DE LA APLICACIÓN ---
+# Usamos un 'while True' para que el menú se repita hasta que el usuario decida salir.
+while True:
+    print("\n--- ¡Hola! ¡Bienvenido a Busco Trabajo! ---")
+    print("Por favor, elige una opción del menú:")
+    print("1. Registrar tus datos personales (nombre, edad, género)")
+    print("2. Registrar las habilidades que ya tienes")
+    print("3. Buscar trabajos que te puedan interesar")
+    print("4. Indicar el nombre de un puesto que quieres conseguir (¡para ver qué te falta!)")
+    print("5. Ver cursos recomendados para tu puesto deseado")
+    print("6. Salir de la aplicación")
+
+    opcion = input("Escribe el número de tu opción y presiona Enter: ").strip() # Pedimos la opción al usuario
+
+    # --- 3. LO QUE HACE CADA OPCIÓN DEL MENÚ ---
+
+    # Opción 1: Registrar datos personales
+    if opcion == "1":
+        print("\n--- Opción 1: Registro de Datos Personales ---")
+        # Pedimos el nombre y lo guardamos en el diccionario 'usuario_actual'
+        ["nombre"] = input("Ingresa tu nombre completo: ").strip()
+        
+        # Pedimos la edad y tratamos de convertirla a número (entero)
+        # Usamos un bucle 'while' para que pida la edad de nuevo si no es un número válido.
+        edad_valida = False
+        while not edad_valida:
+            edad_texto = input("Ingresa tu edad (solo números, por ejemplo, 25): ").strip()
+            if edad_texto.isdigit(): # isdigit() verifica si la cadena solo tiene dígitos
+                usuario["edad"] = int(edad_texto) # Convertimos la cadena a un número entero
+                edad_valida = True
+            else:
+                print("¡Error! Por favor, ingresa solo números para la edad.")
+        
+        # Pedimos el género y lo guardamos. Lo convertimos a minúsculas para facilitar la búsqueda.
+        usuario["genero"] = input("Ingresa tu género (ej. 'masculino', 'femenino', 'otro'): ").lower().strip()
+        
+        print(f"¡Genial, {usuario['nombre']}! Tus datos están guardados.")
+        print(f"Edad: {usuario['edad']}, Género: {usuario['genero'].capitalize()}")
+
+    # Opción 2: Registrar habilidades
+    elif opcion == "2":
+        print("\n--- Opción 2: Registro de Habilidades ---")
+        # Primero, verificamos si el usuario ya se registró con su nombre (opción 1).
+        if not usuario["nombre"]: # Si el nombre está vacío, significa que no se ha registrado.
+            print("¡Espera! Primero, por favor, registra tus datos personales en la opción 1.")
+            continue # 'continue' hace que el programa regrese al inicio del bucle del menú.
+
+        print("Ahora, piensa en las habilidades que ya tienes. Por ejemplo: 'excel, comunicacion, python, ventas'.")
+        print("Escribe tus habilidades separadas por comas y presiona Enter:")
+        habilidades_str = input("Mis habilidades son: ").lower().strip() # Convertimos a minúsculas para comparar fácil.
+        
+        # Convertimos la cadena de texto en una lista de habilidades individuales.
+        # Ejemplo: "excel, comunicacion" se convierte en ["excel", "comunicacion"]
+        # Usamos un 'if h.strip()' para asegurarnos de no añadir habilidades vacías si hay comas extra.
+        usuario["habilidades"] = [h.strip() for h in habilidades_str.split(',') if h.strip()]
+        
+        print("¡Tus habilidades han sido guardadas!")
+        # Mostramos las habilidades guardadas, capitalizando la primera letra de cada una.
+        if usuario["habilidades"]: # Si la lista de habilidades no está vacía
+            print(f"Tus habilidades: {', '.join([h.capitalize() for h in usuario['habilidades']])}")
+        else:
+            print("Parece que no registraste ninguna habilidad. ¡No te preocupes, puedes hacerlo después!")
+
+    # Opción 3: Buscar trabajos disponibles
+    elif opcion == "3":
+        print("\n--- Opción 3: Búsqueda de Trabajos ---")
+        # Verificamos si el usuario ya tiene habilidades registradas.
+        if not usuario["habilidades"]:
+            print("Para buscar trabajos, primero necesitas registrar tus habilidades en la opción 2.")
+            continue
+
+        # Pedimos al usuario sus preferencias para la búsqueda de trabajos.
+        # Guardamos estas preferencias en el diccionario 'usuario_actual'.
+        usuario["puesto_deseado"] = input("¿Qué tipo de puesto laboral te gustaría encontrar? (ej. 'desarrollador', 'administrativo', 'vendedor' o escribe 'cualquiera' para ver todos): ").lower().strip()
+        usuario["horario_preferido"] = input("¿Qué horario prefieres trabajar? (ej. 'tiempo completo', 'medio tiempo', 'mañanas', 'turnos rotativos' o escribe 'cualquiera' para ver todos): ").lower().strip()
+
+        trabajos_encontrados_para_mostrar = [] # Una lista vacía para guardar los trabajos que encontremos que coincidan.
+
+        # Usamos un bucle 'for' para revisar CADA trabajo en nuestra lista de 'trabajos_disponibles'.
+        for trabajo_actual_en_lista in trabajos_disponibles:
+            # Primero, verificamos si el puesto coincide con lo que el usuario quiere.
+            # Si el usuario puso 'cualquiera', coincide con todo.
+            coincide_puesto = False
+            if usuario["puesto_deseado"] == "cualquiera":
+                coincide_puesto = True
+            # Si no es 'cualquiera', verificamos si la palabra deseada está en el nombre del puesto.
+            elif usuario["puesto_deseado"] in trabajo_actual_en_lista["puesto"].lower():
+                coincide_puesto = True
+            
+            # Ahora, verificamos si el horario coincide.
+            coincide_horario = False
+            if usuario["horario_preferido"] == "cualquiera":
+                coincide_horario = True
+            elif usuario["horario_preferido"] == trabajo_actual_en_lista["horario"]:
+                coincide_horario = True
+
+            # Finalmente, verificamos si el usuario tiene AL MENOS UNA de las habilidades requeridas para el trabajo.
+            # Esto es muy básico para un estudiante principiante.
+            usuario_tiene_alguna_habilidad_requerida = False
+            # Recorremos cada habilidad que el trabajo requiere
+            for habilidad_requerida_del_trabajo in trabajo_actual_en_lista["habilidades_requeridas"]:
+                # Y la comparamos con cada habilidad que el usuario dice tener
+                if habilidad_requerida_del_trabajo in usuario["habilidades"]:
+                    usuario_tiene_alguna_habilidad_requerida = True # ¡Encontramos una coincidencia de habilidad!
+                    break # Si ya encontramos una, no necesitamos seguir revisando las habilidades de este trabajo.
+
+            # Si todas las condiciones (puesto, horario y al menos 1 habilidad) son verdaderas,
+            # entonces este trabajo es bueno para el usuario.
+            if coincide_puesto and coincide_horario and usuario_tiene_alguna_habilidad_requerida:
+                trabajos_encontrados_para_mostrar.append(trabajo_actual_en_lista) # Lo agregamos a nuestra lista de resultados.
+
+        # --- Mostrar los resultados de la búsqueda de trabajos ---
+        if trabajos_encontrados_para_mostrar: # Si la lista no está vacía, hay trabajos que mostrar.
+            print("\n--- ¡Excelente! Estos trabajos pueden interesarte: ---")
+            # Usamos otro bucle 'for' para mostrar cada trabajo encontrado.
+            for i, trabajo in enumerate(trabajos_encontrados_para_mostrar): # 'enumerate' nos da un número para cada trabajo (i+1)
+                print(f"\n{i+1}. Puesto: {trabajo['puesto']}")
+                print(f"   Horario: {trabajo['horario'].capitalize()}") # capitalize() pone la primera letra en mayúscula.
+                # Unimos las habilidades requeridas con comas.
+                print(f"   Habilidades necesarias: {', '.join([h.capitalize() for h in trabajo['habilidades_requeridas']])}")
+                print(f"   Descripción: {trabajo['descripcion']}")
+        else: # Si la lista está vacía, no encontramos trabajos.
+            print("\nLo siento, no encontramos trabajos que coincidan con tus preferencias y habilidades actuales.")
+            print("¡No te desanimes! Puedes registrar más habilidades (opción 2) o usar la opción 4 para ver qué cursos te ayudan.")
+
+    # Opción 4: Indicar puesto que te interesa (para luego ver cursos)
+    elif opcion == "4":
+        print("\n--- Opción 4: Indicar Puesto que te Interesa para Cursos ---")
+        if not usuario["nombre"]:
+            print("¡Espera! Primero, por favor, registra tus datos personales en la opción 1.")
+            continue
+
+        puesto_interes_str = input("Ingresa el NOMBRE EXACTO del puesto laboral que te gustaría conseguir (ej. 'Desarrollador Web Junior' o 'Auxiliar Contable'): ").strip()
+        usuario["puesto_deseado"] = puesto_interes_str # Guardamos el puesto deseado del usuario.
+        
+        # Verificamos si este puesto existe en nuestra lista de trabajos disponibles.
+        puesto_encontrado_en_nuestra_lista = False
+        for trabajo_en_lista in trabajos_disponibles:
+            if trabajo_en_lista["puesto"].lower() == usuario["puesto_deseado"].lower():
+                puesto_encontrado_en_nuestra_lista = True
+                break # Salimos del bucle, ya encontramos el puesto.
+        
+        if puesto_encontrado_en_nuestra_lista:
+            print(f"¡Perfecto! Has indicado que te interesa el puesto de '{usuario['puesto_deseado']}'.")
+            print("Ahora, puedes ir a la opción 5 para ver qué cursos te ayudarían a conseguirlo.")
+        else:
+            print(f"Lo siento, el puesto '{usuario['puesto_deseado']}' no está en nuestra lista de trabajos conocidos.")
+            print("Por favor, verifica el nombre exacto o elige uno de los puestos que viste en la opción 3.")
+            usuario["puesto_deseado"] = "" # Limpiamos el puesto deseado si no lo encontramos.
+
+    # Opción 5: Ver cursos recomendados
+    elif opcion == "5":
+        print("\n--- Opción 5: Cursos Recomendados ---")
+        # Verificamos si el usuario ya indicó un puesto deseado en la opción 4.
+        if not usuario["puesto_deseado"]:
+            print("Para ver cursos, primero debes indicar el puesto que te interesa en la opción 4.")
+            continue
+        
+        # También, es bueno que tenga habilidades registradas para que la recomendación sea más útil.
+        if not usuario["habilidades"]:
+            print("¡Importante! Es mejor que registres tus habilidades en la opción 2 para saber qué cursos te faltan.")
+            # No usamos 'continue' aquí para que pueda ver los cursos, pero le avisamos.
+
+        puesto_del_usuario_para_cursos = usuario["puesto_deseado"]
+        habilidades_necesarias_para_este_puesto = []
+
+        # Buscamos las habilidades que se necesitan para el puesto que el usuario eligió.
+        for trabajo_en_lista_para_curso in trabajos_disponibles:
+            if trabajo_en_lista_para_curso["puesto"].lower() == puesto_del_usuario_para_cursos.lower():
+                habilidades_necesarias_para_este_puesto = trabajo_en_lista_para_curso["habilidades_requeridas"]
+                break
+
+        if not habilidades_necesarias_para_este_puesto:
+            print(f"No encontramos las habilidades requeridas para el puesto '{puesto_del_usuario_para_cursos}'.")
+            print("Asegúrate de que el nombre del puesto sea exacto (revisa la opción 4).")
+        else:
+            habilidades_que_le_faltan_al_usuario = [] # Lista para guardar las habilidades que el usuario no tiene.
+            # Comparamos las habilidades requeridas con las que el usuario ya tiene.
+            for habilidad_requerida in habilidades_necesarias_para_este_puesto:
+                if habilidad_requerida not in usuario["habilidades"]:
+                    habilidades_que_le_faltan_al_usuario.append(habilidad_requerida)
+
+            if habilidades_que_le_faltan_al_usuario:
+                print(f"\nPara el puesto de '{puesto_del_usuario_para_cursos}', te faltan estas habilidades:")
+                for h_faltante in habilidades_que_le_faltan_al_usuario:
+                    print(f"- {h_faltante.capitalize()}")
+
+                print("\n--- Aquí tienes cursos para aprender esas habilidades: ---")
+                encontre_cursos_para_mostrar = False
+                # Recorremos las habilidades que le faltan al usuario
+                for habilidad_que_me_falta in habilidades_que_le_faltan_al_usuario:
+                    # Y revisamos cada curso disponible
+                    for curso_disponible_ahora in cursos_disponibles:
+                        # Si el curso te ayuda a desarrollar la habilidad que te falta
+                        if habilidad_que_me_falta in curso_disponible_ahora["habilidades_desarrolla"]:
+                            print(f"\nCurso: {curso_disponible_ahora['nombre_curso']}")
+                            print(f"  Proveedor: {curso_disponible_ahora['proveedor']}")
+                            print(f"  Más información: {curso_disponible_ahora['info_contacto']}")
+                            encontre_cursos_para_mostrar = True # Marcamos que sí encontramos al menos un curso.
+                
+                if not encontre_cursos_para_mostrar: # Si al final del bucle no encontramos ningún curso
+                    print("Lo siento, no tenemos cursos específicos en nuestra lista para estas habilidades.")
+                    print("Te sugiero buscar en internet por tu cuenta o en instituciones educativas grandes.")
+            else:
+                print(f"\n¡Felicidades, {usuario['nombre']}! Según tu información, ya tienes todas las habilidades para el puesto de '{puesto_del_usuario_para_cursos}'.")
+                print("¡Ya estás listo para aplicar! ¡Mucho éxito!")
+
+    # Opción 6: Salir de la aplicación
+    elif opcion == "6":
+        print("\n¡Gracias por usar la aplicación 'Busco Trabajo'! ¡Hasta pronto!")
+        break # Esta instrucción hace que el bucle 'while True' termine y el programa finalice.
+
+    # Si el usuario escribe algo que no es un número del 1 al 6
+    else:
+        print("\n¡Vaya! Esa opción no es válida. Por favor, elige un número del 1 al 6.")
